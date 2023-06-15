@@ -11,6 +11,7 @@ const whites = {
 
 const greys = {
   grey_1: "#9BABB8",
+  grey_2: "#DDE6ED",
 };
 
 const reds = {
@@ -31,6 +32,7 @@ export const spaces = {
   space_20: getRem(20),
   space_24: getRem(24),
   space_32: getRem(32),
+  space_64: getRem(64),
   space_120: getRem(120),
   space_160: getRem(160),
 };

@@ -3,7 +3,7 @@ import { colors, spaces } from "../tokens/tokens";
 import { forwardRef } from "react";
 import { FormElementProps } from "../types/form";
 import { FormInput } from "./FormInput";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { FormControl, Select } from "@mui/material";
 
 const FormElement = forwardRef<FormElementProps, any>(
   ({ label, isError, helperText, ...rest }, ref) => {
@@ -14,16 +14,9 @@ const FormElement = forwardRef<FormElementProps, any>(
             <FormControl fullWidth>
               <FormLabel>{label}</FormLabel>
               <Select ref={ref} {...rest}>
-                {/* <FormLabel>{label}</FormLabel> */}
-                {/* <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem> */}
                 {rest && rest.children}
               </Select>
             </FormControl>
-            {/* <FormSelect ref={ref} {...rest}>
-              {rest && rest.children}
-            </FormSelect> */}
           </FormBox>
           <FormHelperText>{helperText}</FormHelperText>
         </>
@@ -57,13 +50,7 @@ const FormLabel = styled.div`
   margin: 0 0 ${spaces.space_16} 0;
 `;
 
-const FormSelect = styled.select<FormElementProps>`
-  border-radius: ${spaces.space_8};
-  border: 1px solid ${({ isError }) => (isError ? colors.red_1 : colors.grey_1)};
-  padding: ${spaces.space_8};
-  min-width: 200px;
-`;
-
 const FormHelperText = styled.p`
-  font-size: 8px;
+  font-size: ${spaces.space_12};
+  color: ${colors.grey_1};
 `;
