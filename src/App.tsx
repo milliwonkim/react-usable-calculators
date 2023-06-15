@@ -16,6 +16,7 @@ const FINANCIAL_EARNING_TYPE = "financial_earning";
 const YEAR_EARNING_TYPE = "year_earning";
 const MID_RANGE_EARNING_TYPE = "mid_range_earning";
 const WORKING_PERSON_TYPE = "working_person";
+const STEADILY_EARNING_TYPE = "steadily_earning";
 
 function App() {
   const schema = yup.object({
@@ -78,20 +79,25 @@ function App() {
       .typeError(
         "소득이 없는 취준생, 대학생은 해당되지 않습니다. 아르바이트의 경우, 고용보험에 가입되어 있다면 가능합니다."
       ),
+    [STEADILY_EARNING_TYPE]: yup
+      .string()
+      .test(
+        "매달 70만원 한도 내에서 조금이라도 꾸준히 산입하지 않으면 정부지원금을 반환해야합니다.(특별사유 제외)",
+        "매달 70만원 한도 내에서 조금이라도 꾸준히 산입하지 않으면 정부지원금을 반환해야합니다.(특별사유 제외)",
+        (value) => {
+          if (value === "아니오") return false;
+          return true;
+        }
+      )
+      .typeError(
+        "매달 70만원 한도 내에서 조금이라도 꾸준히 산입하지 않으면 정부지원금을 반환해야합니다.(특별사유 제외)"
+      ),
   });
 
-  const [monthly, setMonthly] = useState(0);
+  const [monthly, setMonthly] = useState(70);
   const [isExpanded, setIsExpanded] = useState(false);
   const [info, setInfo] = useState(0);
-
-  const [defaultValue, setDefaultValue] = useState<{ [key: string]: string }>(
-    {}
-  );
-
-  useEffect(() => {
-    const defaults = getLocalStorage("청년도약계좌", {});
-    setDefaultValue(defaults);
-  }, []);
+  const [interest, setInterest] = useState(5);
 
   const {
     handleSubmit,
@@ -99,9 +105,6 @@ function App() {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
-    defaultValues: {
-      age: defaultValue[AGE_TYPE] || "아니오",
-    },
   });
 
   const onSubmit = (values: any) => {
@@ -115,7 +118,7 @@ function App() {
       <Accordians
         disabled={!isExpanded}
         expanded={isExpanded}
-        title={"계산결과(5년 만기, 매월 납입, 비과세, 단리)"}
+        title={`계산결과 (5년 만기, 매월 납입, 비과세, 단리, 최대 5천만원까지)`}
       >
         <FormElement
           type="number"
@@ -127,53 +130,63 @@ function App() {
           max={70}
           label="매월 얼마를 적금할 예정인가요? (만 단위)"
         />
+        <FormElement
+          type="number"
+          value={interest}
+          onChange={(e: { target: { valueAsNumber: number } }) => {
+            setInterest(e.target?.valueAsNumber);
+          }}
+          min={1}
+          max={10}
+          label="연 금리는 몇 퍼센트인가요?"
+        />
 
-        {monthly > 70 || monthly < 1
-          ? null
-          : Object.entries(combineInfo(info, monthly || 70, 5)).map((el, i) => {
-              return (
-                <CalculateBox
-                  style={{
-                    background:
-                      i >=
-                      Object.entries(combineInfo(info, monthly || 70, 5))
-                        .length -
-                        2
-                        ? colors.skyblue_2
-                        : "",
-                    padding:
-                      i >=
-                      Object.entries(combineInfo(info, monthly || 70, 5))
-                        .length -
-                        2
-                        ? "16px"
-                        : "",
-                    color:
-                      i >=
-                      Object.entries(combineInfo(info, monthly || 70, 5))
-                        .length -
-                        2
-                        ? colors.white_1
-                        : "",
-                    boxShadow:
-                      i >=
-                      Object.entries(combineInfo(info, monthly || 70, 5))
-                        .length -
-                        2
-                        ? boxShadows.type_1
-                        : "",
-                  }}
-                >
-                  <div>{getTranslate(el[0])}</div>
-                  <div>
-                    {formatCurrency(
-                      el[1] as number,
-                      el[0].toLowerCase().includes("ratio") ? " %" : " 원"
-                    )}
-                  </div>
-                </CalculateBox>
-              );
-            })}
+        {Object.entries(combineInfo(info, monthly || 70, interest)).map(
+          (el, i) => {
+            return (
+              <CalculateBox
+                style={{
+                  background:
+                    i >=
+                    Object.entries(combineInfo(info, monthly || 70, interest))
+                      .length -
+                      2
+                      ? colors.skyblue_2
+                      : "",
+                  padding:
+                    i >=
+                    Object.entries(combineInfo(info, monthly || 70, interest))
+                      .length -
+                      2
+                      ? "16px"
+                      : "",
+                  color:
+                    i >=
+                    Object.entries(combineInfo(info, monthly || 70, interest))
+                      .length -
+                      2
+                      ? colors.white_1
+                      : "",
+                  boxShadow:
+                    i >=
+                    Object.entries(combineInfo(info, monthly || 70, interest))
+                      .length -
+                      2
+                      ? boxShadows.type_1
+                      : "",
+                }}
+              >
+                <div>{getTranslate(el[0])}</div>
+                <div>
+                  {formatCurrency(
+                    el[1] as number,
+                    el[0].toLowerCase().includes("ratio") ? " %" : " 원"
+                  )}
+                </div>
+              </CalculateBox>
+            );
+          }
+        )}
       </Accordians>
     );
   };
@@ -188,8 +201,8 @@ function App() {
             type="select"
             {...register(AGE_TYPE)}
           >
-            <option value="네">네</option>
             <option value="아니오">아니오</option>
+            <option value="네">네</option>
           </FormElement>
           <FormElement
             isError={Boolean(errors[FINANCIAL_EARNING_TYPE]?.message)}
@@ -197,8 +210,8 @@ function App() {
             type="select"
             {...register(FINANCIAL_EARNING_TYPE)}
           >
-            <option value="네">네</option>
             <option value="아니오">아니오</option>
+            <option value="네">네</option>
           </FormElement>
           <FormElement
             isError={Boolean(errors[YEAR_EARNING_TYPE]?.message)}
@@ -227,8 +240,8 @@ function App() {
             helperText="최대 6년까지, 군 복무 기간을 연령 계산에서 제외 / 6000만 원~7500만 원은 이자 비과세만 적용"
             {...register(MID_RANGE_EARNING_TYPE)}
           >
-            <option value="네">네</option>
             <option value="아니오">아니오</option>
+            <option value="네">네</option>
           </FormElement>
           <FormElement
             isError={Boolean(errors[WORKING_PERSON_TYPE]?.message)}
@@ -236,15 +249,26 @@ function App() {
             type="select"
             {...register(WORKING_PERSON_TYPE)}
           >
-            <option value="네">네</option>
             <option value="아니오">아니오</option>
+            <option value="네">네</option>
+          </FormElement>
+          <FormElement
+            isError={Boolean(errors[STEADILY_EARNING_TYPE]?.message)}
+            label="매달 70만원 한도내에서 꾸준하게 적금하실 수 있나요?"
+            type="select"
+            {...register(STEADILY_EARNING_TYPE)}
+          >
+            <option value="아니오">아니오</option>
+            <option value="네">네</option>
           </FormElement>
           <Errors
             messages={[
               errors[AGE_TYPE]?.message,
+              errors[FINANCIAL_EARNING_TYPE]?.message,
               errors[YEAR_EARNING_TYPE]?.message,
               errors[MID_RANGE_EARNING_TYPE]?.message,
               errors[WORKING_PERSON_TYPE]?.message,
+              errors[STEADILY_EARNING_TYPE]?.message,
             ]}
           />
           <Buttons type="submit">확인하기</Buttons>
@@ -277,6 +301,8 @@ const Buttons = styled.button`
 `;
 
 const Container = styled.div`
+  max-width: 400px;
+  margin: auto;
   padding: ${spaces.space_16};
   position: absolute;
   top: 0;

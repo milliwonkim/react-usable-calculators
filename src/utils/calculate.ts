@@ -12,27 +12,6 @@ export const getTranslate = (name: string) => {
   return dicts[name] || name;
 };
 
-// 연간 납입한도를 계산하는 함수
-function calculateContributionLimit(input: number, monthly: number) {
-  const income = input * 10000;
-  let returnIncome: number;
-  if (income <= 24_000_000) {
-    returnIncome = 700_000;
-  } else if (income <= 36_000_000) {
-    returnIncome = 500_000;
-  } else if (income <= 48_000_000) {
-    returnIncome = 600_000;
-  } else if (income <= 60_000_000) {
-    returnIncome = 700_000;
-  } else if (income <= 75_000_000) {
-    returnIncome = 700_000;
-  } else {
-    returnIncome = 0; // 7,500만 원 이상의 소득일 경우 납입한도 없음
-  }
-
-  return Math.min(monthly, returnIncome);
-}
-
 const calculateMatching = (input: number, monthly: number) => {
   const income = input * 10000;
   let matchingRatio, matchingLimit;
@@ -98,10 +77,6 @@ export function combineInfo(
   monthlyPayment: number,
   interestRate: number
 ) {
-  const contributionLimit = calculateContributionLimit(
-    income,
-    monthlyPayment * 10000
-  );
   const {
     matchingRatio,
     matchingLimit,
@@ -111,13 +86,13 @@ export function combineInfo(
   // const matchingLimit = calculateMatchingLimit(income);
 
   return {
-    contributionLimit: contributionLimit,
+    contributionLimit: monthlyPayment * 10000,
     matchingRatio: matchingRatio,
     matchingLimit: matchingLimit,
     monthlyMatchingAmount,
     matchingAmount,
     totalPayment: calculateSimpleInterest(
-      contributionLimit,
+      monthlyPayment * 10000,
       interestRate,
       interestRate
     ),
@@ -125,7 +100,8 @@ export function combineInfo(
 }
 
 export const formatCurrency = (value: number, unit: string) => {
-  const curr = value.toLocaleString("en-US");
+  const current = value > 50_000_000 ? 50_000_000 : value;
+  const curr = current.toLocaleString("en-US");
   if (!unit) return curr;
   return `${curr}${unit}`;
 };
