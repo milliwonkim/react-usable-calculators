@@ -3,6 +3,7 @@ import { colors, spaces } from "../tokens/tokens";
 import { forwardRef } from "react";
 import { FormElementProps } from "../types/form";
 import { FormInput } from "./FormInput";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
 const FormElement = forwardRef<FormElementProps, any>(
   ({ label, isError, helperText, ...rest }, ref) => {
@@ -10,10 +11,19 @@ const FormElement = forwardRef<FormElementProps, any>(
       return (
         <>
           <FormBox>
-            <FormLabel>{label}</FormLabel>
-            <FormSelect ref={ref} {...rest}>
+            <FormControl fullWidth>
+              <FormLabel>{label}</FormLabel>
+              <Select ref={ref} {...rest}>
+                {/* <FormLabel>{label}</FormLabel> */}
+                {/* <MenuItem value={10}>Ten</MenuItem>
+              <MenuItem value={20}>Twenty</MenuItem>
+            <MenuItem value={30}>Thirty</MenuItem> */}
+                {rest && rest.children}
+              </Select>
+            </FormControl>
+            {/* <FormSelect ref={ref} {...rest}>
               {rest && rest.children}
-            </FormSelect>
+            </FormSelect> */}
           </FormBox>
           <FormHelperText>{helperText}</FormHelperText>
         </>
@@ -44,6 +54,7 @@ const FormBox = styled.div`
 
 const FormLabel = styled.div`
   min-width: ${spaces.space_160};
+  margin: 0 0 ${spaces.space_16} 0;
 `;
 
 const FormSelect = styled.select<FormElementProps>`

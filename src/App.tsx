@@ -10,6 +10,7 @@ import FormElement from "./components/FormElement";
 import Errors from "./components/Errors";
 import { combineInfo, formatCurrency, getTranslate } from "./utils/calculate";
 import { getLocalStorage, setLocalStorage } from "./utils/localStorage";
+import { MenuItem } from "@mui/material";
 
 const AGE_TYPE = "age";
 const FINANCIAL_EARNING_TYPE = "financial_earning";
@@ -146,6 +147,33 @@ function App() {
             return (
               <CalculateBox
                 style={{
+                  zIndex:
+                    i >=
+                    Object.entries(combineInfo(info, monthly || 70, interest))
+                      .length -
+                      2
+                      ? 100
+                      : 0,
+                  position:
+                    i >=
+                    Object.entries(combineInfo(info, monthly || 70, interest))
+                      .length -
+                      2
+                      ? "sticky"
+                      : "relative",
+                  bottom:
+                    i >=
+                    Object.entries(combineInfo(info, monthly || 70, interest))
+                      .length -
+                      2
+                      ? i ===
+                        Object.entries(
+                          combineInfo(info, monthly || 70, interest)
+                        ).length -
+                          2
+                        ? "80px"
+                        : "16px"
+                      : "0",
                   background:
                     i >=
                     Object.entries(combineInfo(info, monthly || 70, interest))
@@ -199,37 +227,40 @@ function App() {
             isError={Boolean(errors[AGE_TYPE]?.message)}
             label="나이가 만 19세 이상, 만 34세 이하인가요?"
             type="select"
+            defaultValue={"아니오"}
             {...register(AGE_TYPE)}
           >
-            <option value="아니오">아니오</option>
-            <option value="네">네</option>
+            <MenuItem value="아니오">아니오</MenuItem>
+            <MenuItem value="네">네</MenuItem>
           </FormElement>
           <FormElement
             isError={Boolean(errors[FINANCIAL_EARNING_TYPE]?.message)}
             label="금융소득(이자소득, 배당소득)이 2000만원이 넘지 않나요?"
             type="select"
+            defaultValue={"아니오"}
             {...register(FINANCIAL_EARNING_TYPE)}
           >
-            <option value="아니오">아니오</option>
-            <option value="네">네</option>
+            <MenuItem value="아니오">아니오</MenuItem>
+            <MenuItem value="네">네</MenuItem>
           </FormElement>
           <FormElement
             isError={Boolean(errors[YEAR_EARNING_TYPE]?.message)}
             label="연 소득은 얼마 이하인가요?(만 단위로 입력)"
             type="select"
+            defaultValue={"해당없음"}
             {...register(YEAR_EARNING_TYPE)}
           >
             {[2400, 3600, 4800, 6000, 7500, "해당없음"].map((el) => {
               if (el === "해당없음")
                 return (
-                  <option value={el} key={el}>
+                  <MenuItem value={el} key={el}>
                     {el}
-                  </option>
+                  </MenuItem>
                 );
               return (
-                <option value={el} key={el}>
+                <MenuItem value={el} key={el}>
                   {el}만원 이하
-                </option>
+                </MenuItem>
               );
             })}
           </FormElement>
@@ -237,29 +268,32 @@ function App() {
             isError={Boolean(errors[MID_RANGE_EARNING_TYPE]?.message)}
             label="가구소득 중위 180% 이하인가요?"
             type="select"
+            defaultValue={"아니오"}
             helperText="최대 6년까지, 군 복무 기간을 연령 계산에서 제외 / 6000만 원~7500만 원은 이자 비과세만 적용"
             {...register(MID_RANGE_EARNING_TYPE)}
           >
-            <option value="아니오">아니오</option>
-            <option value="네">네</option>
+            <MenuItem value="아니오">아니오</MenuItem>
+            <MenuItem value="네">네</MenuItem>
           </FormElement>
           <FormElement
             isError={Boolean(errors[WORKING_PERSON_TYPE]?.message)}
             label="소득이 없는 취준생, 대학생이 아니거나 혹은 아르바이트 등 고용보험에 가입되어 있나요?"
+            defaultValue={"아니오"}
             type="select"
             {...register(WORKING_PERSON_TYPE)}
           >
-            <option value="아니오">아니오</option>
-            <option value="네">네</option>
+            <MenuItem value="아니오">아니오</MenuItem>
+            <MenuItem value="네">네</MenuItem>
           </FormElement>
           <FormElement
             isError={Boolean(errors[STEADILY_EARNING_TYPE]?.message)}
             label="매달 70만원 한도내에서 꾸준하게 적금하실 수 있나요?"
             type="select"
+            defaultValue={"아니오"}
             {...register(STEADILY_EARNING_TYPE)}
           >
-            <option value="아니오">아니오</option>
-            <option value="네">네</option>
+            <MenuItem value="아니오">아니오</MenuItem>
+            <MenuItem value="네">네</MenuItem>
           </FormElement>
           <Errors
             messages={[
