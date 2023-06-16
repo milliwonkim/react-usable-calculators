@@ -197,7 +197,9 @@ const YouthSaving = () => {
                 <div>{getTranslate(el[0])}</div>
                 <div>
                   {formatCurrency(
-                    el[1] as number,
+                    el[0].toLowerCase().includes("ratio")
+                      ? el[1] * 100
+                      : (el[1] as number),
                     el[0].toLowerCase().includes("ratio") ? " %" : " 원"
                   )}
                 </div>

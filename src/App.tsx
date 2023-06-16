@@ -7,6 +7,12 @@ import styled from "@emotion/styled";
 import { spaces } from "./tokens/tokens";
 
 import Header from "./components/Header";
+import {
+  CALCULATORS_URL,
+  CSS_PICKER_URL,
+  YOUTH_SAVING_URL,
+} from "./constants/url";
+import ColorPicker from "./pages/color-picker/ColorPicker";
 
 const App = () => {
   const location = useLocation();
@@ -16,8 +22,9 @@ const App = () => {
       <Header />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/calculators" element={<Calculators />} />
-        <Route path="/calculators/youth-saving" element={<YouthSaving />} />
+        <Route path={CALCULATORS_URL} element={<Calculators />} />
+        <Route path={CSS_PICKER_URL} element={<ColorPicker />} />
+        <Route path={YOUTH_SAVING_URL} element={<YouthSaving />} />
       </Routes>
     </Container>
   );
