@@ -1,19 +1,15 @@
 import { List, ListItemButton, ListItemText, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 import {
-  BOX_SHADOW_PICKER_TITLE,
-  BOX_SHADOW_PICKER_URL,
-  CALCULATORS_TITLE,
-  CALCULATORS_URL,
   CSS_PICKER_TITLE,
   CSS_PICKER_URL,
   YOUTH_SAVING_TITLE,
   YOUTH_SAVING_URL,
 } from "../constants/url";
 import { colors } from "../tokens/tokens";
+import { useRouter } from "next/router";
 
 const HomePage = () => {
-  const nav = useNavigate();
+  const router = useRouter();
   return (
     <>
       <List
@@ -38,7 +34,7 @@ const HomePage = () => {
         ].map((el, i) => {
           const { url, name } = el;
           return (
-            <ListItemButton onClick={() => nav(url)}>
+            <ListItemButton key={name} onClick={() => router.push(url)}>
               <ListItemText primary={name} />
             </ListItemButton>
           );
@@ -66,7 +62,7 @@ const HomePage = () => {
         ].map((el, i) => {
           const { url, name } = el;
           return (
-            <ListItemButton onClick={() => nav(url)}>
+            <ListItemButton key={name} onClick={() => router.push(url)}>
               <ListItemText primary={name} />
             </ListItemButton>
           );

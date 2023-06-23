@@ -103,10 +103,7 @@ section {
 body {
   line-height: 1;
 }
-ol,
-ul {
-  list-style: none;
-}
+
 blockquote,
 q {
   quotes: none;
@@ -130,4 +127,21 @@ select:focus,
 textarea:focus,
 input:focus {
   outline: none;
+}
+
+.markdown > * {
+  all: revert;
+  table {
+    border-collapse: collapse;
+  }
+
+  th,
+  td {
+    padding: 6px 13px;
+    border: 1px solid black;
+  }
+
+  p {
+    line-height: 1.5;
+  }
 }

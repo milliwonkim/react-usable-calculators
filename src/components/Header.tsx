@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { SlArrowLeft } from "react-icons/sl";
 import { Typography } from "@mui/material";
 import styled from "@emotion/styled";
@@ -9,6 +9,7 @@ import {
   YOUTH_SAVING_TITLE,
   YOUTH_SAVING_URL,
 } from "../constants/url";
+import { useRouter } from "next/router";
 
 const HEADER_NAMES: { [key: string]: string } = {
   [YOUTH_SAVING_URL]: YOUTH_SAVING_TITLE,
@@ -16,11 +17,11 @@ const HEADER_NAMES: { [key: string]: string } = {
 };
 
 const Header = () => {
-  const location = useLocation();
-  const nav = useNavigate();
+  const router = useRouter();
+
   return (
     <IconBox>
-      {location.pathname === "/" ? (
+      {router.pathname === "/" ? (
         <Typography
           style={{
             display: "inline-block",
@@ -45,7 +46,7 @@ const Header = () => {
               cursor: "pointer",
               display: "inline-block",
             }}
-            onClick={() => nav(-1)}
+            onClick={() => router.back()}
           />
           <Typography
             style={{
@@ -55,7 +56,7 @@ const Header = () => {
             }}
             align="center"
           >
-            {HEADER_NAMES[location.pathname] || "Useful Tools"}
+            {HEADER_NAMES[router.pathname] || "Useful Tools"}
           </Typography>
         </div>
       )}
