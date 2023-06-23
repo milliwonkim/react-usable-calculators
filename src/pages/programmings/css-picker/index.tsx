@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { boxShadows, colors, spaces } from "../../tokens/tokens";
+import { boxShadows, colors, spaces } from "../../../tokens/tokens";
 
 const rgbaToHex = (rgbaColor: string, isToHEX: boolean) => {
   if (!isToHEX) return rgbaColor;

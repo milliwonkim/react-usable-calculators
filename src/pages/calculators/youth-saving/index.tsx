@@ -1,18 +1,17 @@
 import { useState } from "react";
-import "../../App.css";
 import * as yup from "yup";
-import Accordians from "../../components/Accordians";
+import Accordians from "../../../components/Accordians";
 import { useForm } from "react-hook-form";
 import styled from "@emotion/styled";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { boxShadows, colors, spaces } from "../../tokens/tokens";
-import FormElement from "../../components/FormElement";
-import Errors from "../../components/Errors";
+import { boxShadows, colors, spaces } from "../../../tokens/tokens";
+import FormElement from "../../../components/FormElement";
+import Errors from "../../../components/Errors";
 import {
   combineInfo,
   formatCurrency,
   getTranslate,
-} from "../../utils/calculate";
+} from "../../../utils/calculate";
 import { MenuItem } from "@mui/material";
 import { Helmet } from "react-helmet";
 import {
@@ -22,7 +21,7 @@ import {
   STEADILY_EARNING_TYPE,
   WORKING_PERSON_TYPE,
   YEAR_EARNING_TYPE,
-} from "./constants";
+} from "../../../constants/constants";
 import {
   AGE_ERROR_MESSAGE,
   FINANCIAL_ERROR_MESSAGE,
@@ -30,7 +29,7 @@ import {
   STEADILY_EARNING_ERROR_MESSAGE,
   WORKING_PERSON_ERROR_MESSAGE,
   YEAR_EARNING_ERROR_MESSAGE,
-} from "./messages";
+} from "../../../constants/messages";
 
 const YouthSaving = () => {
   const schema = yup.object({
