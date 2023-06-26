@@ -1,5 +1,4 @@
-import Document, { Html } from "next/document";
-import Head from "next/head";
+import Document, { Head, Html, Main, NextScript } from "next/document";
 
 export default class MyDocument extends Document {
   render() {
@@ -12,6 +11,11 @@ export default class MyDocument extends Document {
             crossOrigin="anonymous"
           ></script>
         </Head>
+        <body>
+          <Main />
+
+          <NextScript />
+        </body>
       </Html>
     );
   }
