@@ -1,4 +1,3 @@
-import { useLocation } from "react-router-dom";
 import { SlArrowLeft } from "react-icons/sl";
 import { Typography } from "@mui/material";
 import styled from "@emotion/styled";
@@ -8,8 +7,6 @@ import {
   CALCULATORS_URL,
   RANDOM_CHOICE_TITLE,
   RANDOM_CHOICE_URL,
-  WORKING_TIME_TITLE,
-  WORKING_TIME_URL,
   YOUTH_SAVING_TITLE,
   YOUTH_SAVING_URL,
 } from "../constants/url";
