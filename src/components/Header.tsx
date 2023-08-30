@@ -6,6 +6,10 @@ import { colors, spaces } from "../tokens/tokens";
 import {
   CALCULATORS_TITLE,
   CALCULATORS_URL,
+  RANDOM_CHOICE_TITLE,
+  RANDOM_CHOICE_URL,
+  WORKING_TIME_TITLE,
+  WORKING_TIME_URL,
   YOUTH_SAVING_TITLE,
   YOUTH_SAVING_URL,
 } from "../constants/url";
@@ -14,6 +18,7 @@ import { useRouter } from "next/router";
 const HEADER_NAMES: { [key: string]: string } = {
   [YOUTH_SAVING_URL]: YOUTH_SAVING_TITLE,
   [CALCULATORS_URL]: CALCULATORS_TITLE,
+  [RANDOM_CHOICE_URL]: RANDOM_CHOICE_TITLE,
 };
 
 const Header = () => {

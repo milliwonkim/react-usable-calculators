@@ -28,6 +28,7 @@ export const colors = {
 export const spaces = {
   space_8: getRem(8),
   space_12: getRem(12),
+  space_14: getRem(14),
   space_16: getRem(16),
   space_20: getRem(20),
   space_24: getRem(24),

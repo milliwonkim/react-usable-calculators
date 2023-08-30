@@ -30,6 +30,7 @@ import {
   WORKING_PERSON_ERROR_MESSAGE,
   YEAR_EARNING_ERROR_MESSAGE,
 } from "../../../constants/messages";
+import Head from "next/head";
 
 const YouthSaving = () => {
   const schema = yup.object({
@@ -212,9 +213,9 @@ const YouthSaving = () => {
 
   return (
     <>
-      <Helmet>
+      <Head>
         <title>청년도약계좌 만기액 계산해보기</title>
-      </Helmet>
+      </Head>
       <FormContainer onSubmit={handleSubmit(onSubmit)}>
         <Accordians defaultExpanded title="조건">
           <FormElement
@@ -312,6 +313,7 @@ export default YouthSaving;
 const FormContainer = styled.form``;
 
 const Buttons = styled.button`
+  cursor: pointer;
   display: inline-block;
   width: 100%;
   background: ${colors.skyblue_1};
