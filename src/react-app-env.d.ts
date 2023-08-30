@@ -11,3 +11,5 @@ declare module "*.mdx" {
 }
 
 declare module "mdx.macro";
+
+declare module "uuid";

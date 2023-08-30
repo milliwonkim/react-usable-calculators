@@ -4,6 +4,10 @@ import {
   CSS_PICKER_URL,
   YOUTH_SAVING_TITLE,
   YOUTH_SAVING_URL,
+  WORKING_TIME_URL,
+  WORKING_TIME_TITLE,
+  RANDOM_CHOICE_URL,
+  RANDOM_CHOICE_TITLE,
 } from "../constants/url";
 import { colors } from "../tokens/tokens";
 import { useRouter } from "next/router";
@@ -31,6 +35,7 @@ const HomePage = () => {
             url: YOUTH_SAVING_URL,
             name: YOUTH_SAVING_TITLE,
           },
+          { url: RANDOM_CHOICE_URL, name: RANDOM_CHOICE_TITLE },
         ].map((el, i) => {
           const { url, name } = el;
           return (

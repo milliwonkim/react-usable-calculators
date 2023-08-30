@@ -123,6 +123,7 @@ table {
 button {
   cursor: pointer;
 }
+
 select:focus,
 textarea:focus,
 input:focus {
